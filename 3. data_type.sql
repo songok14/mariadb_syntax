@@ -46,6 +46,8 @@ select * from post where title like 'world%';
 select * from post where title like '%world';
 select * from post where title like '%world%';
 
+select * from post where author_id in(select id from author where name='hong1');
+
 -- regexp : 정규표현식을 활요한 조회
 select * from post where title regexp '[a-z]'; --하나라도 알파벳 소문자가 들어있으면
 select * from post where title regexp '[가-힣]'; -- 하나라도 한글이 있으면
@@ -65,9 +67,14 @@ select cast('12' as unsigned);  -- 공식에서 권장 사항
 -- 날짜 조회 방법 : 2025-05-23 14:30:25
 -- like 패턴, 부등호, date_format : 사용가능
 select * from post where created_time like '2025-05%';
+-- 5월 1일부터 5월 20일까지
+-- 2025-05-01 만 입력 시 시간은 00:00:00으로 자동 입력
+select * from post where created_time >= '2025-05-01' and created_time <'2025-05-21';
+select * from post where date_format(created_time, '%Y-%m-%d') >= '2025-05-01' and date_format(created_time, '%Y-%m-%d') <='2025-05-20';
 
 select date_format(created_time, '%Y-%m-%d') from post;
 select date_format(created_time, '%H:%i:%s') from post;
 select * from post where date_format(created_time, '%m') = '05';
 
-
+-- 날짜타입 -> 숫자로 변환 후 조회회
+select * from post where cast(date_format(created_time, '%m') as unsigned) = 5;
