@@ -60,7 +60,7 @@ alter table author modify column email varchar(100) not null;
 alter table author modify column email varchar(100) not null unique;
 
 -- 실습 : author 테이블에 address 컬럼 추가(varchar 255)
-alter table autor add column address varchar(255);
+alter table author add column address varchar(255);
 
 -- 실습 : post 테이블에 title은 not null로 변경, content는 길이 3000자로 변경
 alter table post modify column title varchar(255) not null, modify column content varchar(3000);
