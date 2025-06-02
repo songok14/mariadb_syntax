@@ -17,8 +17,8 @@ begin
         rollback;
     end;
     start transaction;
-    update author set post_count = post_count+1 where id=3;
-    insert into post(title, content, author_id) values('abc', 'abcdef', 3);
+        update author set post_count = post_count+1 where id=3;
+        insert into post(title, content, author_id) values('abc', 'abcdef', 3);
     commit;
 end //
 DELIMITER ; -- 마지막 한 칸 띄우는거 중요
