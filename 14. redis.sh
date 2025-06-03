@@ -111,6 +111,9 @@ scard memberlist
 # 특정멤버가 set 안에 있는지 존재여부 확인
 sismember memberlist m2
 
+# 특정멤버 삭제
+srem memberlist m2
+
 # redis 실전 활용 : 좋아요 구현
 # 게시글 상세보기에 들어가면
 scard posting:likes:1
@@ -123,3 +126,36 @@ sadd posting:likes:1 a1@naver.com
 smembers posting:likes:1
 
 # zset : sorted set
+# zset을 활용해서 최근시간순으로 정렬가능
+# zset도 set이므로 같은 상품을 add 할 경우 중복이 제거되고 score 값만 업데이트
+zadd user:1:recent:product 091330 mango
+zadd user:1:recent:product 091332 apple
+zadd user:1:recent:product 091530 orange
+zadd user:1:recent:product 091630 banana
+zadd user:1:recent:product 091731 apple
+
+# zset 조회 : zrange(score 기준 오름차순), zrevrange(score 기준 내림차순)
+zrange user:1:recent:product 0 2
+zrange user:1:recent:product -3 -1
+zrevrange user:1:recent:product 0 2 withscores
+
+# redis 실전 활용 : 시세 저장
+# 종목: 삼성전자, 시세: 55000원, 시간: 현재시간(유닉스 타임스탬프 -> 년월일시간을 초단위로 변환한 것)
+zadd stock:price:se 1748908800 55000
+zadd stock:price:lg 1748908800 100000
+zadd stock:price:se 1748908801 55500
+
+# hashes : value가 map형태의 자료구조(key:value, key:value ... 형태)
+set member:info:1 "{\"name\":\"hong\", \"email\":\"hong@daum.net\", \"age\":30}"
+hset member:info:1 name hong email hong@daum.net age 30
+
+# 특정 값 조회
+hget member:info:1 name
+
+# 모든 객체값 조회
+hgetall member:info:1
+
+# 특정 요소값 수정
+hset member:info:1 name hong2
+
+# redis 실전 활용: 빈번하게 변경되는 객체값을 저장 시 효율적
